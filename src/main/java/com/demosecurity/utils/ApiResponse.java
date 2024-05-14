@@ -1,4 +1,4 @@
-package com.demosecurity.auth;
+package com.demosecurity.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
+public class ApiResponse {
 
-    private String userName;
-    private String password;
+    private String message;
+    private int statusCode;
+    public Object data;
 
 }

@@ -1,11 +1,16 @@
-package com.demosecurity.user;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
-
-public interface UserRepository extends JpaRepository<User,Integer> {
-
-    Optional<User> findByEmail(String email);
-
-}
+//package com.demosecurity.user;
+//
+//import com.demosecurity.model.securityModels.User;
+//import org.springframework.data.jpa.repository.JpaRepository;
+//import org.springframework.data.jpa.repository.Query;
+//import org.springframework.data.repository.query.Param;
+//import org.springframework.stereotype.Repository;
+//
+//import java.util.Optional;
+//
+//@Repository
+//public interface UserRepository extends JpaRepository<User,Long> {
+//
+//    Optional<User> findByUsername(@Param("userName") String userName);
+//
+//}

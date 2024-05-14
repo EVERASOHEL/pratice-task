@@ -1,17 +1,20 @@
-package com.demosecurity.auth;
+package com.demosecurity.dto.securityDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
+public class RoleDTO {
 
-    private String userName;
-    private String password;
+    private Long id;
+    private String name;
+//    private Set<UserDTO> users;
 
 }

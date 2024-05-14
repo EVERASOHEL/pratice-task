@@ -1,9 +1,14 @@
 package com.demosecurity.auth;
 
+import com.demosecurity.dto.permissionDTO.ModulePermissionDTO;
+import com.demosecurity.dto.permissionDTO.UserRoleModulePermissionDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
@@ -13,5 +18,6 @@ public class AuthenticationResponse {
 
     private String token;
     private String message;
+    private Map<String, Object> modulePermissions;
 
 }
