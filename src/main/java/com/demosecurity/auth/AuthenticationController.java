@@ -30,4 +30,9 @@ public class AuthenticationController {
     public ResponseEntity<?> getAllUsers(){
         return ResponseEntity.ok(service.getAllUsers());
     }
+
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllRisterUsers(){
+        return ResponseEntity.ok(service.getAllUserRegisterDetails());
+    }
 }

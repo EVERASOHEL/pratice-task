@@ -25,14 +25,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Setter
 @RequiredArgsConstructor
 @Service
 public class AuthenticationService {
 
-    private final UserRepository userepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
@@ -66,15 +65,17 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .roles(roles)
                 .build();
-        userepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
+        userRepository.save(user);
+//        var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .token("")
+                .message("Registration successful! Welcome aboard!")
+                .statusCode(HttpStatus.OK.value())
                 .build();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        try {
+//        try {
 //            Authentication authenticate = authenticationManager.authenticate(
 //                    new UsernamePasswordAuthenticationToken(
 //                            request.getEmail(),
@@ -85,28 +86,29 @@ public class AuthenticationService {
 //            if (!userDetails.isEnabled()) {
 //                throw new DisabledException("User is disabled");
 //            }
-        } catch (UsernameNotFoundException e) {
-            return AuthenticationResponse.builder()
-                    .message("User not found")
-                    .build();
-        } catch (DisabledException e) {
-            return AuthenticationResponse.builder()
-                    .message("User is disabled")
-                    .build();
-        }
-        var user = userepository.findByUsername(request.getUserName())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+//        } catch (UsernameNotFoundException e) {
+//            return AuthenticationResponse.builder()
+//                    .message("User not found")
+//                    .build();
+//        } catch (DisabledException e) {
+//            return AuthenticationResponse.builder()
+//                    .message("User is disabled")
+//                    .build();
+//        }
+        var user = userRepository.findByUsername(request.getUserName())
+                .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         final Map<String, Object> permissions = findUserPermissionsByUserId(user.getId());
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .message("your are successfully login!")
+                .statusCode(HttpStatus.OK.value())
                 .modulePermissions(permissions)
                 .build();
     }
 
     public ApiResponse getAllUsers(){
-        List<User> userList = userepository.findAll();
+        List<User> userList = userRepository.findAll();
         return ApiResponse.builder()
                 .data(userList)
                 .message("successfully get All User")
@@ -114,16 +116,28 @@ public class AuthenticationService {
                 .build();
     }
 
+    public ApiResponse getAllUserRegisterDetails(){
+        List<Object[]> userList = userRepository.findAllRegisterUsers();
+        final List<UserDTO> userDTOList = userList.stream().map(UserDTO::new).collect(Collectors.toList());
+        return ApiResponse.builder()
+                .data(userDTOList)
+                .message("user data successfully retried")
+                .statusCode(HttpStatus.OK.value())
+                .build();
+    }
+
     @Transactional
     public Map<String, Object> findUserPermissionsByUserId(Long userId) {
-        String roleNameQuery = "SELECT tr.name " +
-                "FROM tbl_user_permission tup " +
-                "LEFT JOIN tbl_role tr ON tup.role_id = tr.id " +
-                "WHERE tup.user_id = :userId";
+//        String roleNameQuery = "SELECT tr.name " +
+//                "FROM tbl_user_permission tup " +
+//                "LEFT JOIN tbl_role tr ON tup.role_id = tr.id " +
+//                "WHERE tup.user_id = :userId";
+
+        String roleNameQuery="select tr.id,tr.name from tbl_user_role tur left join tbl_role tr on tur.role_id=tr.id where tur.user_id=:userId";
 
         final Query roleNameQueryString = entityManager.createNativeQuery(roleNameQuery);
         roleNameQueryString.setParameter("userId", Objects.nonNull(userId) ? userId : null);
-        List<String> roleNames = roleNameQueryString.getResultList();
+        List<Object[]> role = roleNameQueryString.getResultList();
 
         String queryString = "SELECT " +
                 "  tup.id, " +
@@ -148,11 +162,12 @@ public class AuthenticationService {
 
         // Group permissions by role name
         Map<String, Object> groupedPermissions = new HashMap<>();
-        roleNames.stream().findFirst().ifPresent(roleName -> groupedPermissions.put("role", roleName));
+        role.stream().findFirst().ifPresent(roleData -> {
+            groupedPermissions.put("role_Id", roleData[0]);
+            groupedPermissions.put("role_Name", roleData[1]);
+        });
         groupedPermissions.put("modulePermissions", permissionDTOList);
 
         return groupedPermissions;
     }
-
-
 }

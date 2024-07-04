@@ -27,4 +27,14 @@ public class RolePermissionController {
         return ResponseEntity.ok(rolePermissionService.saveNewPermission(modulePermissionDTO));
     }
 
+    @GetMapping("/getAllAccessControl")
+    public ResponseEntity<?> getAllUserModulePermissions(){
+        return  ResponseEntity.ok(rolePermissionService.getAllPermissionList());
+    }
+
+    @GetMapping("/getAllRoles")
+    public ResponseEntity<?> getAllRoles(){
+        return  ResponseEntity.ok(rolePermissionService.findAllRoles());
+    }
+
 }

@@ -13,6 +13,13 @@ public class UserPermissionDTO {
 
     private Long id;
     private Long userId;
+    private String userName;
+    private String RoleName;
     private List<String> selectedModules;
 
+    public UserPermissionDTO(Long id, String userName, String role) {
+        this.userId=id;
+        this.userName=userName;
+        this.RoleName=role;
+    }
 }

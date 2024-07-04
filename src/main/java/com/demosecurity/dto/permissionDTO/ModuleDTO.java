@@ -16,4 +16,8 @@ public class ModuleDTO {
     private String description;
     private List<PermissionDTO> permissionDTO;
 
+    public ModuleDTO(String moduleName, List<PermissionDTO> list) {
+        this.moduleName=moduleName;
+        this.permissionDTO=list;
+    }
 }
