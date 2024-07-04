@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Create Company</h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="companyFormGroup" (ngSubmit)="saveCompany()">
+        <div class="mb-6">
+            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+            <input type="text" id="first_name"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="john@gmail.com" required formControlName="email" />
+        </div>
+        <div class="grid gap-6 mb-6 md:grid-cols-2">
+            <div>
+                <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    UserName</label>
+                <input type="text" id="first_name"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="john" required formControlName="userName" />
+            </div>
+            <div>
+                <label for="first_name"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                <input type="text" id="first_name"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="john123" required formControlName="password" />
+            </div>
+            <div class="mb-6">
+                <mat-form-field appearance="outline">
+                    <mat-label>Select Role</mat-label>
+                    <mat-select formControlName="selectedOption">
+                        <mat-option *ngFor="let role of roledetails" [value]="role.name">{{role.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button style="background-color: rgb(237, 253, 3);" mat-dialog-close
+        (click)="closeDialog()">Cancel</button>
+    <button mat-button style="background-color: #22c55e;" mat-dialog-close (click)="saveCompany()">Save Company</button>
+</mat-dialog-actions>

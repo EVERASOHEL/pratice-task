@@ -1,0 +1,88 @@
+// form {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 16px;
+//     max-width: 300px;
+//     margin: auto;
+//   }
+
+mat-form-field {
+    width: 100%;
+}
+
+.custom-mat-form-field {
+    --mat-form-field-padding: 0px;
+    --mat-form-field-outline-width: 1px;
+    --mat-form-field-outline-color: rgba(0, 0, 0, 0.42);
+}
+
+.custom-mat-select .mat-select-trigger {
+    height: 32px;
+    /* Adjust this height as needed */
+    line-height: 32px;
+    /* Ensure the text is vertically centered */
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    /* Add some padding for better visual appeal */
+}
+
+.custom-mat-select .mat-select-value {
+    padding: 0;
+    line-height: 32px;
+    /* Ensure the text is vertically centered */
+}
+
+.custom-mat-select .mat-select-arrow {
+    top: calc(50% - 12px);
+    /* Adjust the position of the arrow */
+}
+
+.custom-mat-select .mat-form-field-outline-start,
+.custom-mat-select .mat-form-field-outline-end {
+    top: 0;
+    /* Align the outline with the top of the form field */
+}
+
+.custom-mat-option {
+    padding: 8px 16px;
+    /* Adjust padding for better option appearance */
+}
+
+.custom-mat-form-field .mat-form-field-wrapper {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.custom-mat-form-field .mat-form-field-flex {
+    height: 32px;
+    /* Adjust the height as needed */
+    align-items: center;
+}
+
+.custom-mat-form-field .mat-form-field-outline {
+    border-color: var(--mat-form-field-outline-color);
+}
+
+.custom-mat-form-field .mat-form-field-underline {
+    display: none;
+    /* Hide the underline if not needed */
+}
+
+::ng-deep .mdc-notched-outline__notch {
+    border-right: none !important;
+}
+
+.mat-option {
+    height: 30px;
+    /* Adjust the height as desired */
+    line-height: 30px;
+    /* Match the height for proper alignment */
+}
+
+.mat-select-panel {
+    max-height: 100px;
+    /* Adjust the height as desired */
+    overflow-y: auto;
+    /* Enable scrolling if there are more options */
+}

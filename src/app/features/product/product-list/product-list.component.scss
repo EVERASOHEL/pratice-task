@@ -1,0 +1,11 @@
+table {
+    width: 100%;
+  }
+  .mat-table-wrapper {
+    max-height: 600px; /* Set the height you want for the table body */
+    overflow-y: auto;
+  }
+
+  .mat-mdc-header-row{
+    background-color: rgb(222, 224, 235);
+  }

@@ -1,0 +1,89 @@
+<div class="container mx-auto p-4">
+    <div>
+        <h1>Permissions</h1>
+    </div>
+    <div style="margin-bottom: 20px; margin-top: 10px; display: flex;justify-content: space-between;">
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+            <mat-button-toggle value="All">All</mat-button-toggle>
+            <mat-button-toggle value="Accountant">Accountant</mat-button-toggle>
+            <mat-button-toggle value="Manager">Manager</mat-button-toggle>
+        </mat-button-toggle-group>
+        <div style="text-align: end; margin-left: 20px;">
+            <button *ngIf="permissionService.hasPermission('product','canWrite')" type="button"
+                (click)="navigateToRequest()"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Request</button>
+        </div>
+    </div>
+
+    <mat-accordion>
+        <mat-expansion-panel *ngFor="let permission of userPermissions; let i = index" [expanded]="panelOpenState[i]"
+            (opened)="togglePanel(i)" (closed)="togglePanel(i)">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{ permission.userPermissionDTOList[0].userName }} - {{ permission.userPermissionDTOList[0].roleName
+                    }}
+                </mat-panel-title>
+                <mat-panel-description>
+                    Currently {{ panelOpenState[i] ? 'open' : 'closed' }}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div *ngIf="permission.moduleDTOList.length > 0">
+                <table mat-table [dataSource]="permission.moduleDTOList">
+                    <ng-container matColumnDef="moduleName">
+                        <th mat-header-cell *matHeaderCellDef> Module Name </th>
+                        <td mat-cell *matCellDef="let module"> {{ module.moduleName }} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="canRead">
+                        <th mat-header-cell *matHeaderCellDef> Can Read </th>
+                        <td mat-cell *matCellDef="let module">
+                            <mat-icon
+                                *ngIf="isPermissionSelected(permission, module.moduleName, 'canRead')">check_circle</mat-icon>
+                            <mat-icon
+                                *ngIf="!isPermissionSelected(permission, module.moduleName, 'canRead')">remove_circle</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="canWrite">
+                        <th mat-header-cell *matHeaderCellDef> Can Write </th>
+                        <td mat-cell *matCellDef="let module">
+                            <mat-icon
+                                *ngIf="isPermissionSelected(permission, module.moduleName, 'canWrite')">check_circle</mat-icon>
+                            <mat-icon
+                                *ngIf="!isPermissionSelected(permission, module.moduleName, 'canWrite')">remove_circle</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="canUpdate">
+                        <th mat-header-cell *matHeaderCellDef> Can Update </th>
+                        <td mat-cell *matCellDef="let module">
+                            <mat-icon
+                                *ngIf="isPermissionSelected(permission, module.moduleName, 'canUpdate')">check_circle</mat-icon>
+                            <mat-icon
+                                *ngIf="!isPermissionSelected(permission, module.moduleName, 'canUpdate')">remove_circle</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="canDelete">
+                        <th mat-header-cell *matHeaderCellDef> Can Delete </th>
+                        <td mat-cell *matCellDef="let module">
+                            <mat-icon
+                                *ngIf="isPermissionSelected(permission, module.moduleName, 'canDelete')">check_circle</mat-icon>
+                            <mat-icon
+                                *ngIf="!isPermissionSelected(permission, module.moduleName, 'canDelete')">remove_circle</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row
+                        *matHeaderRowDef="['moduleName', 'canRead', 'canWrite', 'canUpdate', 'canDelete']"></tr>
+                    <tr mat-row
+                        *matRowDef="let row; columns: ['moduleName', 'canRead', 'canWrite', 'canUpdate', 'canDelete'];">
+                    </tr>
+                </table>
+            </div>
+            <div *ngIf="permission.moduleDTOList.length === 0">
+                <p>No modules found for this user.</p>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
